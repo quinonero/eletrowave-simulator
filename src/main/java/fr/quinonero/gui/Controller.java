@@ -1,8 +1,7 @@
 package fr.quinonero.gui;
 
-import fr.quinonero.utils.ByteBufferInputStream;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import fr.quinonero.models.OBJLoader;
+import fr.quinonero.thread.OpenGLThread;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -10,12 +9,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
-import org.lwjgl.opengl.GL11;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,7 +30,13 @@ public class Controller implements Initializable {
     public Button loadModel;
 
     @FXML
-    public AnchorPane openGLRenderFrame;
+    public Slider srcXPos;
+
+    @FXML
+    public Slider srcYPos;
+
+    @FXML
+    public Slider srcRadius;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,33 +59,40 @@ public class Controller implements Initializable {
         loadModel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                FxmlReader.modelChooser.showOpenDialog(FxmlReader.mainStage);
+                OpenGLThread.structModel = OBJLoader.loadModel(FxmlReader.modelChooser.showOpenDialog(FxmlReader.mainStage));
             }
         });
 
 
-        Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-            int i = 0;
+        srcXPos.setMax(FxmlReader.width);
+        srcYPos.setMax(FxmlReader.height);
+        srcXPos.setValue(FxmlReader.width / 2);
+        srcYPos.setValue(FxmlReader.height / 2);
+        srcRadius.setMin(1);
+        srcRadius.setValue(10);
+        OpenGLThread.srcXPos = (float)srcXPos.getValue();
+        OpenGLThread.srcYPos = (float)srcYPos.getValue();
+
+        srcXPos.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void handle(ActionEvent event) {
-                if(openGLRenderFrame != null){
-                    GL11.glReadPixels(0, 0, FxmlReader.width, FxmlReader.height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, FxmlReader.buffer );
-                    ImageView abc = new ImageView(new Image(new ByteBufferInputStream(FxmlReader.buffer)));
-                    abc.setFitWidth(openGLRenderFrame.getWidth());
-                    abc.setFitHeight(openGLRenderFrame.getHeight());
-                    System.out.println(FxmlReader.buffer.get());
-                    openGLRenderFrame.getChildren().clear();
-                    openGLRenderFrame.getChildren().add(abc);
-
-                    System.out.println("tot");
-                    i++;
-                }
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                OpenGLThread.srcXPos = newValue.floatValue();
             }
-        }));
-        timeLine.setCycleCount(Timeline.INDEFINITE);
-        timeLine.play();
+        });
 
+        srcYPos.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                OpenGLThread.srcYPos = newValue.floatValue();
+            }
+        });
 
+        srcRadius.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                OpenGLThread.srcRadius = newValue.floatValue();
+            }
+        });
 
     }
 }

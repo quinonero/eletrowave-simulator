@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="690.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.quinonero.gui.Controller">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
+      <children>
+            <TextField fx:id="srcFreqInput" layoutX="270.0" layoutY="27.0" prefHeight="26.0" prefWidth="152.0" />
+            <Label layoutX="195.0" layoutY="31.0" text="SRC Freq" />
+            <TextField fx:id="distanceInput" layoutX="270.0" layoutY="71.0" prefHeight="26.0" prefWidth="152.0" />
+            <Label layoutX="196.0" layoutY="75.0" text="Distance" />
+            <Button fx:id="validate" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Validate" />
+            <Button fx:id="loadModel" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Load Model" />
+            <Slider fx:id="srcYPos" layoutX="276.0" layoutY="148.0" prefHeight="14.0" prefWidth="231.0" />
+            <Slider fx:id="srcXPos" layoutX="276.0" layoutY="115.0" prefHeight="14.0" prefWidth="231.0" />
+            <Label layoutX="204.0" layoutY="113.0" text="SRC x pos" />
+            <Label layoutX="204.0" layoutY="146.0" text="SRC y pos" />
+            <Slider fx:id="srcRadius" layoutX="276.0" layoutY="184.0" prefHeight="14.0" prefWidth="231.0" />
+            <Label layoutX="204.0" layoutY="182.0" text="SRC radius" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
