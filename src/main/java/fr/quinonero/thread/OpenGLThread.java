@@ -1,5 +1,6 @@
 package fr.quinonero.thread;
 
+import fr.quinonero.gui.Controller;
 import fr.quinonero.gui.FxmlReader;
 import fr.quinonero.models.Model;
 import fr.quinonero.models.OBJLoader;
@@ -17,12 +18,10 @@ import java.util.List;
 
 public class OpenGLThread implements Runnable {
 
-    public static float srcXPos = 0, srcYPos = 0;
-    public static float srcRadius = 10;
+    public static List<Line> lines = new ArrayList<Line>();
+    public static List<Line> loopLines = new ArrayList<Line>();
 
-    private List<Line> lines = new ArrayList<Line>();
-
-    public static Model structModel = null;
+    public static Model structModel = OBJLoader.loadModel(new File(OpenGLThread.class.getClassLoader().getResource("test.obj").getPath()));
 
     public OpenGLThread() {
         this.init();
@@ -32,20 +31,46 @@ public class OpenGLThread implements Runnable {
     @Override
     public void run() {
 
-        while (!Display.isCloseRequested()) {
+        int frames = 0;
+        long lastTime = System.nanoTime();
+        long totalTime = 0;
 
+
+        while (!Display.isCloseRequested()) {
+            //System.out.println(lines.size());
+            loopLines.clear();
             // render OpenGL here
+            GL11.glClearColor((float) Controller.INSTANCE.colorBackground.getValue().getRed(), (float) Controller.INSTANCE.colorBackground.getValue().getGreen(), (float) Controller.INSTANCE.colorBackground.getValue().getBlue(), (float) Controller.INSTANCE.colorBackground.getValue().getOpacity());
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
 
-            OpenGLDraw.drawFilledCircle(srcXPos, srcYPos, srcRadius);
+            long now = System.nanoTime();
+            long passed = now - lastTime;
+            lastTime = now;
+            totalTime += passed;
+
+            if(totalTime >= 1000000000)
+            {
+                // System.out.println(frames);
+                Display.setTitle("Simulator" + " - fps: " + frames);
+                totalTime = 0;
+                frames = 0;
+            }
+            frames++;
+
+            if (Controller.INSTANCE.renderSrc.isSelected())
+                OpenGLDraw.drawFilledCircle(Controller.INSTANCE.srcXPos.getValue(), Controller.INSTANCE.srcYPos.getValue(), Controller.INSTANCE.srcRadius.getValue());
+
 
             for (Line l : lines) {
-                l.update();
-                     l.render();
+                if (Controller.INSTANCE.rayPropagation.isSelected())
+                    l.update();
+                if (Controller.INSTANCE.renderRay.isSelected())
+                    l.render();
             }
+            lines.addAll(loopLines);
 
-            if (structModel != null)
+            if (structModel != null && Controller.INSTANCE.renderModel.isSelected())
                 Renderer.renderModel(structModel);
 
             // OpenGLDraw.drawCircleCenterLines(srcXPos, srcYPos, srcRadius);
@@ -58,7 +83,6 @@ public class OpenGLThread implements Runnable {
             // Put everything back to default (deselect)
             GL20.glDisableVertexAttribArray(0);
             GL30.glBindVertexArray(0);*/
-
 
             Display.update();
         }
@@ -77,11 +101,11 @@ public class OpenGLThread implements Runnable {
 
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, 640, 480, 0, 1, -1);
+        GL11.glOrtho(0, FxmlReader.width, FxmlReader.height, 0, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        for (float i = 0; i <= 360; i++) {
+        for (float i = 0; i < 360; i++) {
             lines.add(new Line(i, true, false));
         }
 

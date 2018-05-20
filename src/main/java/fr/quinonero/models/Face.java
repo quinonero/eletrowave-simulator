@@ -6,11 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 public class Face
 {
 
-    public Vector2f[] textureCoords;
     public Vector3f[] points;
-    public Vector3f[] normals;
-
-    public AABB boundingBox;
 
     /**
      * Not reccomended to use this
@@ -24,10 +20,5 @@ public class Face
     public Face()
     {
 
-    }
-
-    public void setUpAABB()
-    {
-        this.boundingBox = new AABB(this);
     }
 }

@@ -15,8 +15,8 @@ public final class FxmlReader extends Application {
     public static FileChooser modelChooser = new FileChooser();
     public static Stage mainStage;
     public static long window;
-    public static final int width = 784;
-    public static final int height = 623;
+    public static final int width = 1280;
+    public static final int height = 720;
     public static File stlFile;
 
     @Override

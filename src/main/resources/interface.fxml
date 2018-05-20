@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
@@ -23,17 +25,41 @@
                         <Label layoutX="196.0" layoutY="75.0" text="Distance" />
                         <Button fx:id="validate" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Validate" />
                         <Button fx:id="loadModel" layoutY="1.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Load Model" />
-                        <Slider fx:id="srcYPos" layoutX="276.0" layoutY="148.0" prefHeight="14.0" prefWidth="231.0" />
-                        <Slider fx:id="srcXPos" layoutX="276.0" layoutY="115.0" prefHeight="14.0" prefWidth="231.0" />
-                        <Label layoutX="204.0" layoutY="113.0" text="SRC x pos" />
-                        <Label layoutX="204.0" layoutY="146.0" text="SRC y pos" />
-                        <Slider fx:id="srcRadius" layoutX="276.0" layoutY="184.0" prefHeight="14.0" prefWidth="231.0" />
-                        <Label layoutX="204.0" layoutY="182.0" text="SRC radius" />
+                        <Slider fx:id="srcYPos" layoutX="460.0" layoutY="146.0" prefHeight="14.0" prefWidth="231.0" />
+                        <Slider fx:id="srcXPos" layoutX="460.0" layoutY="113.0" prefHeight="14.0" prefWidth="231.0" />
+                        <Label layoutX="388.0" layoutY="111.0" text="SRC x pos" />
+                        <Label layoutX="388.0" layoutY="144.0" text="SRC y pos" />
+                        <Slider fx:id="srcRadius" layoutX="460.0" layoutY="182.0" prefHeight="14.0" prefWidth="231.0" />
+                        <Label layoutX="388.0" layoutY="180.0" text="SRC radius" />
+                        <Slider fx:id="modelYPos" layoutX="97.0" layoutY="145.0" prefHeight="14.0" prefWidth="231.0" />
+                        <Slider fx:id="modelXPos" layoutX="97.0" layoutY="112.0" prefHeight="14.0" prefWidth="231.0" />
+                        <Label layoutX="14.0" layoutY="110.0" text="Model x pos" />
+                        <Label layoutX="13.0" layoutY="143.0" text="Model y pos" />
+                        <Slider fx:id="modelScale" layoutX="97.0" layoutY="181.0" prefHeight="14.0" prefWidth="231.0" />
+                        <Label layoutX="14.0" layoutY="179.0" text="Model scale" />
+                        <CheckBox fx:id="rayPropagation" layoutX="452.0" layoutY="76.0" mnemonicParsing="false" text="Ray propagation" />
+                        <Button fx:id="rayResetBtn" layoutX="467.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Reset all rays" />
                   </children>
                 </AnchorPane>
                </content>
             </Tab>
-          <Tab text="Render" />
+          <Tab text="Render">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <CheckBox fx:id="renderModel" layoutX="14.0" layoutY="90.0" mnemonicParsing="false" selected="true" text="Render model" />
+                        <CheckBox fx:id="renderSrc" layoutX="14.0" layoutY="114.0" mnemonicParsing="false" selected="true" text="Render src" />
+                        <CheckBox fx:id="renderRay" layoutX="14.0" layoutY="139.0" mnemonicParsing="false" selected="true" text="Render ray" />
+                        <CheckBox fx:id="renderHitbox" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" selected="true" text="Render hitbox" />
+                        <ColorPicker fx:id="colorModel" layoutX="159.0" layoutY="86.0" />
+                        <ColorPicker fx:id="colorHitbox" layoutX="159.0" layoutY="60.0" />
+                        <ColorPicker fx:id="colorSrc" layoutX="159.0" layoutY="110.0" />
+                        <ColorPicker fx:id="colorRay" layoutX="159.0" layoutY="135.0" />
+                        <ColorPicker fx:id="colorBackground" layoutX="159.0" layoutY="14.0" />
+                        <Label layoutX="16.0" layoutY="18.0" text="Background color" />
+                     </children>
+                  </AnchorPane>
+               </content></Tab>
         </tabs>
       </TabPane>
   </children>
